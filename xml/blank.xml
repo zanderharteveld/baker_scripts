@@ -1,0 +1,33 @@
+core.init: Rosetta version: 2018.02.post.dev+30.master.a2806a6 a2806a69c4b3c33182a3130401d367050c56dbc6 git@github.com:RosettaCommons/main.git 2018-01-09T10:23:02
+core.init: command: /home/reggiano/Rosetta/main/source/bin/rosetta_scripts.default.linuxgccrelease
+core.init: 'RNG device' seed mode, using '/dev/urandom', seed=-1217957521 seed_offset=0 real_seed=-1217957521
+core.init.random: RandomGenerator:init: Normal mode, seed=-1217957521 RG_type=mt19937
+core.init: found database environment variable ROSETTA3_DB: /software/rosetta/versions/v2018.04-dev60001/main/database
+core.init: 
+core.init: USEFUL TIP: Type -help to get the options for this Rosetta executable.
+core.init: 
+protocols.RosettaScripts.util: No XML file was specified with the "-parser:protocol <filename>" commandline option.  In order for RosettaScripts to do something, it must be provided with a script.
+protocols.RosettaScripts.util: The following is an empty (template) RosettaScripts XML file:
+
+<ROSETTASCRIPTS>
+	<SCOREFXNS>
+	</SCOREFXNS>
+	<RESIDUE_SELECTORS>
+	</RESIDUE_SELECTORS>
+	<TASKOPERATIONS>
+	</TASKOPERATIONS>
+	<FILTERS>
+	</FILTERS>
+	<MOVERS>
+	</MOVERS>
+	<APPLY_TO_POSE>
+	</APPLY_TO_POSE>
+	<PROTOCOLS>
+	</PROTOCOLS>
+	<OUTPUT />
+</ROSETTASCRIPTS>
+
+At any point in a script, you can include text from another file using <xi:include href="filename.xml" />.
+protocols.RosettaScripts.util: Variable substituion is possible from the commandline using the -"parser:script_vars varname=value" flag.  Any string of the pattern "%%varname%%" will be replaced with "value" in the script.
+protocols.RosettaScripts.util: 
+protocols.RosettaScripts.util: The rosetta_scripts application will now exit.

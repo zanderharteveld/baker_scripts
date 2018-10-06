@@ -1,0 +1,19 @@
+-overwrite
+-write_all_connect_info 1
+-run::preserve_header
+-connect_info_cutoff 3.0
+-nblist_autoupdate
+-jd2:ntrials 1
+-packing::use_input_sc 1
+-packing::extrachi_cutoff 1
+-packing::ex1
+-packing::ex2
+-linmem_ig 10
+-parser_read_cloud_pdb 1
+-ignore_unrecognized_res
+-no_optH false
+-flip_HNQ
+-no_his_his_pairE
+-enzdes:detect_design_interface
+-chemical:exclude_patches LowerDNA  UpperDNA Cterm_amidation VirtualBB ShoveBB VirtualDNAPhosphate VirtualNTerm CTermConnect sc_orbitals pro_hydroxylated_case1 pro_hydroxylated_case2 ser_phosphorylated thr_phosphorylated  tyr_phosphorylated tyr_sulfated lys_dimethylated lys_monomethylated  lys_trimethylated lys_acetylated glu_carboxylated cys_acetylated tyr_diiodinated N_acetylated C_methylamidated MethylatedProteinCterm
+-holes:dalphaball /work/brunette/scripts/DAlphaBall.gcc

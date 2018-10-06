@@ -1,0 +1,6 @@
+switch:cartesian
+repeat 1
+scale:coordinate_constraint 0.0
+ramp_repack_min 1     0.00001  200
+accept_to_best
+endrepeat

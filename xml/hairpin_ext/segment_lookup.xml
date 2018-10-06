@@ -1,0 +1,57 @@
+<ROSETTASCRIPTS>
+  <MOVERS>
+    <DirectSegmentLookupMover label_insertion="segment_lookup" max_insertion_length="10" name="segment_lookup" rmsd_tolerance="0.75" segment_cluster_tolerance="1.0" stored_subset_name="inserted_lookup_segment" structure_store="/home/fordas/databases/vall.json"/>
+    <MultiplePoseMover name="minimize_segment">
+      <ROSETTASCRIPTS>
+        <SCOREFXNS>
+          <ScoreFunction name="default_cart_cst" weights="ref2015_cart">
+            <Reweight scoretype="coordinate_constraint" weight="1."/>
+          </ScoreFunction>
+        </SCOREFXNS>
+        <TASKOPERATIONS>
+          <RestrictAbsentCanonicalAAS keep_aas="APG" name="to_ala_pro_gly" resnum="0"/>
+          <OperateOnResidueSubset name="only_lookup_segment">
+            <Not>
+              <StoredResidueSubset subset_name="inserted_lookup_segment"/>
+            </Not>
+            <PreventRepackingRLT/>
+          </OperateOnResidueSubset>
+        </TASKOPERATIONS>
+        <MOVERS>
+          <PackRotamersMover name="to_ala_pro_gly" scorefxn="default_cart_cst" task_operations="only_lookup_segment,to_ala_pro_gly"/>
+          <TaskAwareMinMover bb="1" cartesian="1" chi="1" name="hardmin_bb" scorefxn="default_cart_cst" task_operations="only_lookup_segment" tolerance="0.0001" type="lbfgs_armijo_nonmonotone"/>
+        </MOVERS>
+        <FILTERS>
+          <ChainBreak chain_num="1" threshold="1" name="chainbreak_postmin"/>
+        </FILTERS>
+        <PROTOCOLS>
+          <Add mover="to_ala_pro_gly"/>
+          <Add mover="hardmin_bb"/>
+          <Add filter="chainbreak_postmin" report_at_end="false"/>
+        </PROTOCOLS>
+      </ROSETTASCRIPTS>
+    </MultiplePoseMover>
+    <MultiplePoseMover name="profile_segment">
+      <ROSETTASCRIPTS>
+        <MOVERS>
+          <SegmentSequenceProfileMover name="lookup_segment_profile" residue_selector="only_lookup_segment" rmsd_tolerance="1.25" output_pssm_inline="segment_profile" structure_store="/home/fordas/databases/vall.json" output_lookup_count="segment_profile_count" />
+        </MOVERS>
+        <FILTERS>
+          <CalculatorFilter name="profile_count_threshold" threshold="-50" equation="-c" >
+            <Var name="c" reported="segment_profile_count" />
+          </CalculatorFilter>
+        </FILTERS>
+        <PROTOCOLS>
+          <Add mover="lookup_segment_profile"/>
+          <Add filter="profile_count_threshold"/>
+        </PROTOCOLS>
+      </ROSETTASCRIPTS>
+    </MultiplePoseMover>
+  </MOVERS>
+  <APPLY_TO_POSE/>
+  <PROTOCOLS>
+    <Add mover="segment_lookup"/>
+    <Add mover="minimize_segment"/>
+    Add mover="profile_segment"/>
+  </PROTOCOLS>
+</ROSETTASCRIPTS>

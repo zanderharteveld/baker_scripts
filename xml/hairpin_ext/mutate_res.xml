@@ -1,0 +1,23 @@
+
+<ROSETTASCRIPTS>
+	<SCOREFXNS>
+	</SCOREFXNS>
+	<RESIDUE_SELECTORS>
+	</RESIDUE_SELECTORS>
+	<TASKOPERATIONS>
+	</TASKOPERATIONS>
+	<FILTERS>
+	</FILTERS>
+	<MOVERS>
+
+		<MutateResidue name="arg_to_leu" target="75A" new_res="LEU" preserve_atom_coords="false"/>
+		<MutateResidue name="arg_to_val" target="75A" new_res="VAL" preserve_atom_coords="false"/>
+		<MutateResidue name="arg_to_ala" target="75A" new_res="ALA" preserve_atom_coords="false"/>
+	</MOVERS>
+	<APPLY_TO_POSE>
+	</APPLY_TO_POSE>
+	<PROTOCOLS>
+		<Add mover="arg_to_ala"/>
+	</PROTOCOLS>
+	<OUTPUT />
+</ROSETTASCRIPTS>

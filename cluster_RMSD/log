@@ -1,0 +1,31 @@
+Comparing all to template and all vs all
+18 processors will be used
+137580 comparisons will be done per processor
+Done preparing jobs
+slurmstepd: error: *** JOB 14677568 ON dig58 CANCELLED AT 2018-02-20T14:38:40 ***
+Comparing all to template and all vs all
+18 processors will be used
+137580 comparisons will be done per processor
+Done preparing jobs
+Comparing all to template and all vs all
+18 processors will be used
+137580 comparisons will be done per processor
+Done preparing jobs
+slurmstepd: error: *** JOB 14679052 ON gna7 CANCELLED AT 2018-02-20T16:02:12 ***
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+Batch ready
+jobs: 18
+Done comparing, writing data to allxall.txt
+Mean: 1.63667356371 StDev: 0.670199748737
+Done writing data, making plots
+Done with all.

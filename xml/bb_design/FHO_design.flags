@@ -1,0 +1,49 @@
+#-beta
+#-rama_prepro_steep  # don't know if we still need it
+-run::preserve_header
+
+#-enzdes::minimize_ligand_torsions 5.0
+-enzdes
+ -detect_design_interface
+
+-packing::use_input_sc
+#-packing:extrachi_cutoff 18
+#-packing::ex1
+#-packing::ex2
+
+# memory issue
+-linmem_ig 10
+-nblist_autoupdate
+
+-ignore_unrecognized_res
+
+
+#no_optH is to avoid optimizing proton position for His which should be set False.
+-no_optH false 
+
+
+#Flip between different protonated states.
+-flip_HNQ
+
+#Histine is always favored by Rosetta since it can be buried and exposed to solvate
+#This flag is set to avoid putting in a lot of paired His.
+-no_his_his_pairE
+
+
+-chemical:exclude_patches LowerDNA  UpperDNA Cterm_amidation VirtualBB ShoveBB VirtualDNAPhosphate VirtualNTerm CTermConnect sc_orbitals pro_hydroxylated_case1 pro_hydroxylated_case2 ser_phosphorylated thr_phosphorylated  tyr_phosphorylated tyr_sulfated lys_dimethylated lys_monomethylated  lys_trimethylated lys_acetylated glu_carboxylated cys_acetylated tyr_diiodinated N_acetylated C_methylamidated MethylatedProteinCterm
+
+
+#-mute all
+
+
+-nstruct 5
+-jd2:ntrials 1
+
+-extra_res_fa ./FHOh_H001.fa.params
+
+#-database /work/doujy/Rosetta/main/database
+
+# to use holes, can't use it on Hyak though. 
+#-holes:dalphaball /work/brunette/scripts/DAlphaBall.gcc
+
+-aa_composition_setup_file ./favour_core_aromatics.comp

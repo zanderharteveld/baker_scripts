@@ -1,0 +1,1 @@
+/work/javierbq/local/bin/python  read_stats_HH_cap.py -data abego_seq_stats_PDB_HH-EH-HE-EE-wcap.out -connection EE -abego GG

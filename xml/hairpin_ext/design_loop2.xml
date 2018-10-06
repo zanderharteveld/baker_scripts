@@ -1,0 +1,71 @@
+<ROSETTASCRIPTS>
+
+	<SCOREFXNS>
+		<ScoreFunction name="ref2015" weights="ref2015"/>
+	</SCOREFXNS>
+
+	<RESIDUE_SELECTORS>
+		segment_lookup residues
+		<ResiduePDBInfoHasLabel name="only_loop" property = "segment_lookup"/>
+		
+		all other residues
+		<Not name="other_res" selector="only_loop"/>
+
+
+		residues in loop interacting w/ neighboring beta sheet
+		Index name="hyd_loop" resnums="93,94,95,96,97"/>
+		
+		Not name="not_hyd_loop" selector="hyd_loop"/>
+		other residues in the loop
+		And name="exposed_loop" selector="not_hyd_loop,only_loop"/>
+	</RESIDUE_SELECTORS>
+
+	<TASKOPERATIONS>
+		<InitializeFromCommandline name="init"/>
+		<LimitAromaChi2 name="limchi2"/>
+		<OperateOnResidueSubset name="only_repack_loop"
+			selector="other_res">
+			<PreventRepackingRLT/>
+		</OperateOnResidueSubset>
+		<OperateOnResidueSubset name="only_design_loop"
+			selector="other_res">
+			<RestrictToRepackingRLT/>
+		</OperateOnResidueSubset>
+		<ReadResfile name="resfile" filename="%%res_file%%"/> 
+	</TASKOPERATIONS>
+
+	<MOVERS>
+		<FastRelax name="repack_loop"
+			task_operations="init,limchi2,only_repack_loop"
+			scorefxn="ref2015"/>
+		
+		<FastRelax name="repack_all"
+			task_operations="init,limchi2"
+			scorefxn="ref2015"/>
+
+		<FastDesign name="design_repack_loop"
+			task_operations="init,limchi2,only_design_loop,only_repack_loop,resfile"
+			scorefxn="ref2015"
+			repeats="15"/>
+
+		<FastDesign name="design_loop_repack_all"
+			task_operations="init,limchi2,only_design_loop,resfile"
+			scorefxn="ref2015"
+			repeats="15"/>
+	</MOVERS>
+
+	<FILTERS>
+       <ScoreType name="total_score" scorefxn="ref2015" score_type="total_score" threshold="1000" confidence="0"/>
+       <ResidueCount name="nres" confidence="0" />
+       <CalculatorFilter name="total_score_res" confidence="0" equation="SCORE/NRES" threshold="0" >
+          <Var name="SCORE" filter_name="total_score" />
+          <Var name="NRES" filter_name="nres" />
+       </CalculatorFilter>
+	</FILTERS>
+
+	<PROTOCOLS>
+		<Add mover="design_repack_loop"/>
+		<Add filter="total_score_res"/>
+	</PROTOCOLS>
+
+</ROSETTASCRIPTS>

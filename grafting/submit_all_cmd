@@ -1,0 +1,1 @@
+python fake_parallel_graft.py -i nC5_WW_refine_14_foldit_1.pdb -r [97,101] [71,77] [45,51] [17,21] -l HBI.fa.params -sc true -o grafted_loops -nd dir_cluster_loops

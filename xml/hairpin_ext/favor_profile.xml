@@ -1,0 +1,65 @@
+<ROSETTASCRIPTS>
+
+	<SCOREFXNS>
+		<ScoreFunction name="ref2015" weights="ref2015"/>
+	</SCOREFXNS>
+
+	<RESIDUE_SELECTORS>
+		segment_lookup residues
+		<ResiduePDBInfoHasLabel name="only_loop" property = "segment_lookup"/>
+
+		all other residues
+		<Not name="other_res" selector="only_loop"/>
+	</RESIDUE_SELECTORS>
+
+	<TASKOPERATIONS>
+		<InitializeFromCommandline name="init"/>
+		<LimitAromaChi2 name="limchi2"/>
+		<OperateOnResidueSubset name="only_repack_loop"
+			selector="other_res">
+			<PreventRepackingRLT/>
+		</OperateOnResidueSubset>
+		<OperateOnResidueSubset name="only_design_loop"
+			selector="other_res">
+			<RestrictToRepackingRLT/>
+		</OperateOnResidueSubset>
+	</TASKOPERATIONS>
+
+	<MOVERS>
+		<SegmentSequenceProfileMover name="lookup_segment_profile" residue_selector="only_loop" rmsd_tolerance="1.5" output_pssm_inline="segment_profile" structure_store="/home/fordas/databases/vall.json" output_lookup_count="segment_profile_count" />
+
+		<FastRelax name="repack_loop"
+			task_operations="init,limchi2,only_repack_loop"
+			scorefxn="ref2015"/>
+		
+		<FastRelax name="repack_all"
+			task_operations="init,limchi2"
+			scorefxn="ref2015"/>
+
+		<FastDesign name="design_repack_loop"
+			task_operations="init,limchi2,only_design_loop,only_repack_loop"
+			scorefxn="ref2015"
+			repeats="15"/>
+
+		<FastDesign name="design_loop_repack_all"
+			task_operations="init,limchi2,only_design_loop"
+			scorefxn="ref2015"
+			repeats="15"/>
+	</MOVERS>
+
+	<FILTERS>
+	<CalculatorFilter name="profile_count_threshold" threshold="-50" equation="-c" >
+            			<Var name="c" reported="segment_profile_count" />
+    	</CalculatorFilter>
+	<ResidueCount name="add_atleast_4" min_residue_count="113"/>
+	<ScoreType name="hbond_lr_bb" scorefxn="ref2015" score_type="hbond_lr_bb" threshold="-82.0"/>
+	</FILTERS>
+
+	<PROTOCOLS>
+		<Add mover="repack_loop"/>
+		<Add filter = "hbond_lr_bb"/>
+		<Add mover="lookup_segment_profile"/>
+		<Add filter="profile_count_threshold"/>
+	</PROTOCOLS>
+
+</ROSETTASCRIPTS>
